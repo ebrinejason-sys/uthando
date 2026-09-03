@@ -9,6 +9,7 @@ const bookingNumber = document.querySelector('#bookingNumber');
 const whatsappConfirm = document.querySelector('#whatsappConfirm');
 const dialogClose = document.querySelector('#dialogClose');
 const dialogDone = document.querySelector('#dialogDone');
+const whatsappGroupUrl = 'https://chat.whatsapp.com/FsJ1LNbmt4TAN0kFB3gy8s?s=cl&p=i&mlu=4&ilr=4';
 let flutterwavePublicKey = '';
 
 fetch('/api/config')
@@ -34,6 +35,19 @@ function closeConfirmation() {
 
 dialogClose.addEventListener('click', closeConfirmation);
 dialogDone.addEventListener('click', closeConfirmation);
+whatsappConfirm.addEventListener('click', async (event) => {
+  const message = whatsappConfirm.dataset.message;
+  if (!message) return;
+  event.preventDefault();
+  try {
+    await navigator.clipboard.writeText(message);
+    status.className = 'status success';
+    status.textContent = 'Booking message copied. Paste it into the WhatsApp group.';
+  } catch (error) {
+    status.className = 'status';
+  }
+  window.open(whatsappGroupUrl, '_blank', 'noopener');
+});
 
 form.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -72,10 +86,11 @@ form.addEventListener('submit', (event) => {
           .then((result) => result.json().then((body) => ({ ok: result.ok, body })))
           .then(({ ok, body }) => {
             if (!ok) throw new Error(body.error || 'Verification failed');
-            const message = encodeURIComponent(`Hello Uthando Vibes, I am confirming my paid booking ${body.bookingNumber}. Name: ${data.name}. Phone: ${data.phone}. Station: ${data.area}. Pickup: ${data.address}. Time: ${data.pickupTime}. Return ride: ${data.returnRide}. Seats: ${count}.`);
+            const message = `Hello Uthando Vibes, I am confirming my paid booking ${body.bookingNumber}. Name: ${data.name}. Phone: ${data.phone}. Station: ${data.area}. Pickup: ${data.address}. Time: ${data.pickupTime}. Return ride: ${data.returnRide}. Seats: ${count}.`;
             status.className = 'status success';
             bookingNumber.textContent = body.bookingNumber;
-            whatsappConfirm.href = `https://wa.me/256785896760?text=${message}`;
+            whatsappConfirm.href = whatsappGroupUrl;
+            whatsappConfirm.dataset.message = message;
             confirmationDialog.showModal();
             status.textContent = `Booking ${body.bookingNumber} confirmed.`;
             form.reset();
@@ -101,5 +116,5 @@ form.addEventListener('submit', (event) => {
   }
 
   status.className = 'status error';
-  status.innerHTML = 'Online payment is not configured yet. <a href="https://wa.me/256785896760" target="_blank" rel="noreferrer">Contact us on WhatsApp ↗</a>';
+  status.innerHTML = 'Online payment is not configured yet. <a href="https://chat.whatsapp.com/FsJ1LNbmt4TAN0kFB3gy8s?s=cl&amp;p=i&amp;mlu=4&amp;ilr=4" target="_blank" rel="noreferrer">Join the WhatsApp group ↗</a>';
 });
