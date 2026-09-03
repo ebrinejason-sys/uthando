@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="dialog.css">
 </head>
 <body>
   <div class="topline"><span>UTHANDO VIBES 5TH EDITION</span><span>Saturday, 5 September 2026</span><span>6:30 PM till late</span></div>
@@ -52,6 +53,16 @@
 
     <section class="details-section" id="details"><div><p class="eyebrow"><span></span> The essentials</p><h2>Good vibes.<br>Good timing.</h2></div><div class="detail-list"><div><span class="detail-icon">◷</span><div><small>When we run</small><b>Saturday, 5 September 2026 · From 6:30 PM until late</b></div></div><div><span class="detail-icon">⌖</span><div><small>Coverage areas</small><b>Abuja · Lagos · Bwejji · Bassajja · Bushenyi · Ishaka Town · Kizinda</b></div></div><div><span class="detail-icon">◉</span><div><small>Need a hand?</small><b>WhatsApp or call <a href="tel:0785896760">0785 896 760</a></b></div></div></div></section>
   </main>
+  <dialog class="confirmation-dialog" id="confirmationDialog">
+    <button class="dialog-close" id="dialogClose" type="button" aria-label="Close confirmation">×</button>
+    <div class="dialog-mark">✓</div>
+    <p class="eyebrow"><span></span> Payment confirmed</p>
+    <h2>Your seat is<br><i>locked in.</i></h2>
+    <p class="dialog-copy">Keep this booking number safe. We have sent the same number to your email.</p>
+    <div class="booking-number"><small>Booking number</small><strong id="bookingNumber">UV-2026-000000</strong></div>
+    <a class="button whatsapp-button" id="whatsappConfirm" href="#" target="_blank" rel="noreferrer">Confirm on WhatsApp <span>↗</span></a>
+    <button class="dialog-secondary" id="dialogDone" type="button">Done</button>
+  </dialog>
   <footer><a class="brand" href="#top"><span>UV</span><strong>uthando<br><em>vibes</em></strong></a><p>Ride in comfort & luxury.</p><a href="https://wa.me/256785896760" target="_blank" rel="noreferrer">WhatsApp us ↗</a></footer>
   <script src="https://checkout.flutterwave.com/v3.js"></script><script src="app.js"></script>
 </body>
