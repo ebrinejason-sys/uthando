@@ -31,7 +31,7 @@ form.addEventListener('submit', (event) => {
   const amount = price * count;
   const reference = `UV-${Date.now()}`;
 
-  if (!price || !data.name || !data.phone || !data.area || !data.address) {
+  if (!price || !data.name || !data.phone || !data.email || !data.area || !data.address) {
     status.className = 'status error';
     status.textContent = 'Please complete all required ride details.';
     return;
@@ -43,14 +43,30 @@ form.addEventListener('submit', (event) => {
     amount,
     currency: 'UGX',
     payment_options: 'card,mobilemoneyuganda,mobilemoneyrwanda,mobilemoneyzambia',
-    customer: { email: `${data.phone.replace(/\D/g, '')}@uthandovibes.com`, phone_number: data.phone, name: data.name },
+    customer: { email: data.email, phone_number: data.phone, name: data.name },
     customizations: { title: 'Uthando Vibes transport', description: `${count} seat(s) from ${data.area}`, logo: '' },
     callback: (response) => {
       if (response.status === 'successful') {
-        status.className = 'status success';
-        status.textContent = `Payment received. Your ride reference is ${reference}.`;
-        form.reset();
-        updateTotal();
+        status.className = 'status';
+        status.textContent = 'Payment received. Verifying your booking...';
+        fetch('/api/complete-booking', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ transactionId: response.transaction_id, expectedAmount: amount, booking: data })
+        })
+          .then((result) => result.json().then((body) => ({ ok: result.ok, body })))
+          .then(({ ok, body }) => {
+            if (!ok) throw new Error(body.error || 'Verification failed');
+            const message = encodeURIComponent(`Hello Uthando Vibes, my paid booking number is ${body.bookingNumber}. Name: ${data.name}. Phone: ${data.phone}. Area: ${data.area}. Pickup: ${data.address}. Seats: ${count}.`);
+            status.className = 'status success';
+            status.innerHTML = `Booking ${body.bookingNumber} confirmed. <a href="https://wa.me/256785896760?text=${message}" target="_blank" rel="noreferrer">Confirm via WhatsApp ↗</a>`;
+            form.reset();
+            updateTotal();
+          })
+          .catch(() => {
+            status.className = 'status error';
+            status.textContent = 'Payment was received, but verification is still pending. Please contact us on WhatsApp.';
+          });
       } else {
         status.className = 'status error';
         status.textContent = 'Payment was not completed. Please try again.';
@@ -66,7 +82,6 @@ form.addEventListener('submit', (event) => {
     return;
   }
 
-  const message = encodeURIComponent(`Hello Uthando Vibes, I want to book ${count} seat(s). Name: ${data.name}. Phone: ${data.phone}. Area: ${data.area}. Pickup: ${data.address}. Total: UGX ${amount.toLocaleString('en-US')}.`);
-  status.className = 'status success';
-  status.innerHTML = `Booking details ready. <a href="https://wa.me/256785896760?text=${message}" target="_blank" rel="noreferrer">Confirm via WhatsApp ↗</a>`;
+  status.className = 'status error';
+  status.innerHTML = 'Online payment is not configured yet. <a href="https://wa.me/256785896760" target="_blank" rel="noreferrer">Contact us on WhatsApp ↗</a>';
 });
