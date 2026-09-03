@@ -43,7 +43,7 @@ module.exports = async (request, response) => {
           from: process.env.RESEND_FROM_EMAIL,
           to: recipients,
           subject: `Paid ride booking ${bookingNumber} | ${booking.name}`,
-          html: `<h2>Uthando Vibes paid booking</h2><p><strong>Booking number:</strong> ${bookingNumber}</p><p><strong>Name:</strong> ${details.name}<br><strong>Email:</strong> ${details.email}<br><strong>Phone:</strong> ${details.phone}<br><strong>Area:</strong> ${details.area}<br><strong>Pickup:</strong> ${details.address}<br><strong>Seats:</strong> ${details.seats}<br><strong>Paid:</strong> UGX ${details.amount}<br><strong>Flutterwave transaction:</strong> ${details.transactionId}</p>`
+          html: `<h2>Uthando Vibes paid booking</h2><p><strong>Booking number:</strong> ${bookingNumber}</p><p><strong>Name:</strong> ${details.name}<br><strong>Email:</strong> ${details.email}<br><strong>Phone:</strong> ${details.phone}<br><strong>Station:</strong> ${details.area}<br><strong>Pickup:</strong> ${details.address}<br><strong>Pickup time:</strong> ${booking.pickupTime}<br><strong>Return ride:</strong> ${booking.returnRide}<br><strong>Seats:</strong> ${details.seats}<br><strong>Paid:</strong> UGX ${details.amount}<br><strong>Flutterwave transaction:</strong> ${details.transactionId}</p>`
         })
       });
     }

@@ -1,5 +1,6 @@
 const form = document.querySelector('#bookingForm');
 const pickupType = document.querySelector('#pickupType');
+const returnRide = document.querySelector('#returnRide');
 const seats = document.querySelector('#seats');
 const total = document.querySelector('#total');
 const status = document.querySelector('#status');
@@ -13,10 +14,12 @@ fetch('/api/config')
 function updateTotal() {
   const price = Number(pickupType.value || 0);
   const count = Number(seats.value || 1);
-  total.textContent = `UGX ${(price * count).toLocaleString('en-US')}`;
+  const tripMultiplier = returnRide.value === 'yes' ? 2 : 1;
+  total.textContent = `UGX ${(price * count * tripMultiplier).toLocaleString('en-US')}`;
 }
 
 pickupType.addEventListener('change', updateTotal);
+returnRide.addEventListener('change', updateTotal);
 seats.addEventListener('change', updateTotal);
 updateTotal();
 
@@ -28,7 +31,7 @@ form.addEventListener('submit', (event) => {
   const price = Number(pickupType.value);
   const count = Number(seats.value);
   const data = Object.fromEntries(new FormData(form));
-  const amount = price * count;
+  const amount = price * count * (data.returnRide === 'yes' ? 2 : 1);
   const reference = `UV-${Date.now()}`;
 
   if (!price || !data.name || !data.phone || !data.email || !data.area || !data.address) {
@@ -44,7 +47,7 @@ form.addEventListener('submit', (event) => {
     currency: 'UGX',
     payment_options: 'card,mobilemoneyuganda,mobilemoneyrwanda,mobilemoneyzambia',
     customer: { email: data.email, phone_number: data.phone, name: data.name },
-    customizations: { title: 'Uthando Vibes transport', description: `${count} seat(s) from ${data.area}`, logo: '' },
+    customizations: { title: 'Uthando Vibes transport', description: `${count} seat(s) from ${data.area}, pickup at ${data.pickupTime}`, logo: '' },
     callback: (response) => {
       if (response.status === 'successful') {
         status.className = 'status';
@@ -57,7 +60,7 @@ form.addEventListener('submit', (event) => {
           .then((result) => result.json().then((body) => ({ ok: result.ok, body })))
           .then(({ ok, body }) => {
             if (!ok) throw new Error(body.error || 'Verification failed');
-            const message = encodeURIComponent(`Hello Uthando Vibes, my paid booking number is ${body.bookingNumber}. Name: ${data.name}. Phone: ${data.phone}. Area: ${data.area}. Pickup: ${data.address}. Seats: ${count}.`);
+            const message = encodeURIComponent(`Hello Uthando Vibes, my paid booking number is ${body.bookingNumber}. Name: ${data.name}. Phone: ${data.phone}. Station: ${data.area}. Pickup: ${data.address}. Time: ${data.pickupTime}. Return ride: ${data.returnRide}. Seats: ${count}.`);
             status.className = 'status success';
             status.innerHTML = `Booking ${body.bookingNumber} confirmed. <a href="https://wa.me/256785896760?text=${message}" target="_blank" rel="noreferrer">Confirm via WhatsApp ↗</a>`;
             form.reset();
