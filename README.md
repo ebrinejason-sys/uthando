@@ -1,6 +1,6 @@
 # Uthando Vibes booking site
 
-Static Vercel site with a Flutterwave checkout and Resend notifications.
+Static Vercel site with cash-on-pickup reservations, Flutterwave mobile-money checkout, and Resend notifications.
 
 ## Vercel environment variables
 
@@ -12,6 +12,6 @@ Add these in the Vercel project settings for Production (and Preview if needed):
 - `RESEND_FROM_EMAIL`: verified sender, for example `Uthando Vibes <bookings@yourdomain.com>`
 - `ADMIN_EMAIL`: inbox that receives every paid-booking notification
 
-After Flutterwave reports success, the API verifies the transaction, checks the UGX amount, emails the admin and customer through Resend, and returns a generated booking number. The customer can then open WhatsApp with the booking number pre-filled.
+Customers can choose cash on pickup or mobile money through Flutterwave. For online payments, the API verifies the transaction and UGX amount before emailing the admin and customer through Resend. Cash reservations are recorded without payment verification and show the amount due in the booking notification. Both paths return a generated booking number, which the customer can open in WhatsApp pre-filled.
 
 The Resend sender domain must be verified in Resend. Never put `FLW_SECRET_KEY` or `RESEND_API_KEY` in frontend code.
