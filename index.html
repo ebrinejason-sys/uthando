@@ -46,7 +46,6 @@
           <label>Return ride? *<select id="returnRide" name="returnRide" required><option value="">Choose an option</option><option value="no">No, one-way only</option><option value="yes">Yes, I need a return ride</option></select></label>
           <label>Payment method *<select id="paymentMethod" name="paymentMethod" required><option value="">Choose a method</option><option value="cash">Cash on pickup</option><option value="flutterwave">Mobile money via Flutterwave</option></select></label>
         </div>
-        <fieldset class="vehicle-picker"><legend>Your ride style *</legend><div class="vehicle-options"><label class="vehicle-card"><input type="radio" name="vehicle" value="City compact" required><span class="vehicle-art compact" aria-hidden="true"><i></i></span><strong>City compact</strong><small>Quick and easy</small></label><label class="vehicle-card"><input type="radio" name="vehicle" value="Executive sedan"><span class="vehicle-art sedan" aria-hidden="true"><i></i></span><strong>Executive sedan</strong><small>Quiet and smooth</small></label><label class="vehicle-card"><input type="radio" name="vehicle" value="Group van"><span class="vehicle-art van" aria-hidden="true"><i></i></span><strong>Group van</strong><small>More room to move</small></label></div></fieldset>
         <label class="full-field">Specific pickup point or address *<input id="address" name="address" type="text" placeholder="Tell us exactly where to find you" required></label>
         <div class="quantity-row"><label>Number of seats *<select id="seats" name="seats"><option value="1">1 seat</option><option value="2">2 seats</option><option value="3">3 seats</option><option value="4">4 seats</option><option value="5">5 seats</option><option value="6">6 seats</option><option value="7">7 seats</option><option value="8">8 seats</option><option value="9">9 seats</option><option value="10">10 seats</option></select></label><div class="fare"><small>Total to pay</small><strong id="total">UGX 0</strong></div><button class="button button-primary pay-button" type="submit">Continue to payment <span>→</span></button></div>
         <p class="form-footnote">Pay cash when you meet your driver, or use secure mobile money checkout powered by <b>Flutterwave</b>.</p>
@@ -61,9 +60,9 @@
     <div class="dialog-mark">✓</div>
     <p class="eyebrow"><span></span> <span id="confirmationLabel">Booking confirmed</span></p>
     <h2>Your seat is<br><i>locked in.</i></h2>
-    <p class="dialog-copy" id="dialogCopy">Keep this booking number safe. We have sent the same number to your email.</p>
+    <p class="dialog-copy" id="dialogCopy">Your confirmation has been sent to your email. You can also send the booking details to the ride group on WhatsApp.</p>
     <div class="booking-number"><small>Booking number</small><strong id="bookingNumber">R01-2026-000000</strong></div>
-    <a class="button whatsapp-button" id="whatsappConfirm" href="https://chat.whatsapp.com/FsJ1LNbmt4TAN0kFB3gy8s?s=cl&amp;p=i&amp;mlu=4&amp;ilr=4" target="_blank" rel="noopener noreferrer">Copy number and open group <span>↗</span></a>
+    <a class="button whatsapp-button" id="whatsappConfirm" href="https://chat.whatsapp.com/FsJ1LNbmt4TAN0kFB3gy8s?s=cl&amp;p=i&amp;mlu=4&amp;ilr=4" target="_blank" rel="noopener noreferrer">Confirm in WhatsApp group <span>↗</span></a>
     <button class="dialog-secondary" id="dialogDone" type="button">Done</button>
   </dialog>
   <footer><a class="brand" href="#top"><span>01</span><strong>route<br><em>one</em></strong></a><p>Ride in comfort and arrive on time.</p><a href="https://chat.whatsapp.com/FsJ1LNbmt4TAN0kFB3gy8s?s=cl&amp;p=i&amp;mlu=4&amp;ilr=4" target="_blank" rel="noopener noreferrer">Join the ride group ↗</a></footer>

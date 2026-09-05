@@ -64,7 +64,7 @@ form.addEventListener('submit', (event) => {
   const amount = price * count * (data.returnRide === 'yes' ? 2 : 1);
   const reference = `R01-${Date.now()}`;
 
-  if (!price || !data.name || !data.phone || !data.email || !data.area || !data.pickupPoint || !data.address || !data.vehicle || !data.paymentMethod) {
+  if (!price || !data.name || !data.phone || !data.email || !data.area || !data.pickupPoint || !data.address || !data.paymentMethod) {
     status.className = 'status error';
     status.textContent = 'Please complete all required ride details.';
     return;
@@ -78,11 +78,11 @@ form.addEventListener('submit', (event) => {
     .then((result) => result.json().then((body) => ({ ok: result.ok, body })))
     .then(({ ok, body }) => {
       if (!ok) throw new Error(body.error || 'Booking failed');
-      const message = `Hello Route 01, I am confirming my ${data.paymentMethod === 'cash' ? 'cash' : 'paid'} booking ${body.bookingNumber}. Name: ${data.name}. Phone: ${data.phone}. Station: ${data.area}. Meeting point: ${data.pickupPoint}. Pickup: ${data.address}. Vehicle: ${data.vehicle}. Time: ${data.pickupTime}. Return ride: ${data.returnRide}. Seats: ${count}.`;
+      const message = `Hello Route 01, I am confirming my ${data.paymentMethod === 'cash' ? 'cash' : 'paid'} booking ${body.bookingNumber}. Name: ${data.name}. Phone: ${data.phone}. Station: ${data.area}. Meeting point: ${data.pickupPoint}. Pickup: ${data.address}. Time: ${data.pickupTime}. Return ride: ${data.returnRide}. Seats: ${count}.`;
       status.className = 'status success';
       bookingNumber.textContent = body.bookingNumber;
       confirmationLabel.textContent = data.paymentMethod === 'cash' ? 'Cash booking received' : 'Payment confirmed';
-      dialogCopy.textContent = data.paymentMethod === 'cash' ? 'Keep this booking number safe. Pay your driver in cash when you are picked up.' : 'Keep this booking number safe. We have sent the same number to your email.';
+      dialogCopy.textContent = data.paymentMethod === 'cash' ? 'Your confirmation has been sent to your email. Pay your driver in cash when you are picked up.' : 'Your payment is confirmed and a copy of the booking has been sent to your email.';
       whatsappConfirm.href = whatsappGroupUrl;
       whatsappConfirm.dataset.message = message;
       confirmationDialog.showModal();
@@ -130,5 +130,5 @@ form.addEventListener('submit', (event) => {
   }
 
   status.className = 'status error';
-  status.innerHTML = 'Online payment is not configured yet. <a href="https://chat.whatsapp.com/FsJ1LNbmt4TAN0kFB3gy8s?s=cl&amp;p=i&amp;mlu=4&amp;ilr=4" target="_blank" rel="noreferrer">Join the WhatsApp group ↗</a>';
+  status.innerHTML = 'Online payment is not configured yet. <a href="https://chat.whatsapp.com/FsJ1LNbmt4TAN0kFB3gy8s?s=cl&amp;p=i&amp;mlu=4&amp;ilr=4" target="_blank" rel="noopener noreferrer">Join the WhatsApp group ↗</a>';
 });
