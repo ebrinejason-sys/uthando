@@ -1,5 +1,6 @@
 const form = document.querySelector('#bookingForm');
 const pickupType = document.querySelector('#pickupType');
+const pickupPoint = document.querySelector('#pickupPoint');
 const returnRide = document.querySelector('#returnRide');
 const paymentMethod = document.querySelector('#paymentMethod');
 const seats = document.querySelector('#seats');
@@ -61,9 +62,9 @@ form.addEventListener('submit', (event) => {
   const count = Number(seats.value);
   const data = Object.fromEntries(new FormData(form));
   const amount = price * count * (data.returnRide === 'yes' ? 2 : 1);
-  const reference = `UV-${Date.now()}`;
+  const reference = `R01-${Date.now()}`;
 
-  if (!price || !data.name || !data.phone || !data.email || !data.area || !data.address || !data.paymentMethod) {
+  if (!price || !data.name || !data.phone || !data.email || !data.area || !data.pickupPoint || !data.address || !data.vehicle || !data.paymentMethod) {
     status.className = 'status error';
     status.textContent = 'Please complete all required ride details.';
     return;
@@ -77,7 +78,7 @@ form.addEventListener('submit', (event) => {
     .then((result) => result.json().then((body) => ({ ok: result.ok, body })))
     .then(({ ok, body }) => {
       if (!ok) throw new Error(body.error || 'Booking failed');
-      const message = `Hello Uthando Vibes, I am confirming my ${data.paymentMethod === 'cash' ? 'cash' : 'paid'} booking ${body.bookingNumber}. Name: ${data.name}. Phone: ${data.phone}. Station: ${data.area}. Pickup: ${data.address}. Time: ${data.pickupTime}. Return ride: ${data.returnRide}. Seats: ${count}.`;
+      const message = `Hello Route 01, I am confirming my ${data.paymentMethod === 'cash' ? 'cash' : 'paid'} booking ${body.bookingNumber}. Name: ${data.name}. Phone: ${data.phone}. Station: ${data.area}. Meeting point: ${data.pickupPoint}. Pickup: ${data.address}. Vehicle: ${data.vehicle}. Time: ${data.pickupTime}. Return ride: ${data.returnRide}. Seats: ${count}.`;
       status.className = 'status success';
       bookingNumber.textContent = body.bookingNumber;
       confirmationLabel.textContent = data.paymentMethod === 'cash' ? 'Cash booking received' : 'Payment confirmed';
@@ -107,7 +108,7 @@ form.addEventListener('submit', (event) => {
     currency: 'UGX',
     payment_options: 'mobilemoneyuganda',
     customer: { email: data.email, phone_number: data.phone, name: data.name },
-    customizations: { title: 'Uthando Vibes transport', description: `${count} seat(s) from ${data.area}, pickup at ${data.pickupTime}`, logo: '' },
+    customizations: { title: 'Route 01 transport', description: `${count} seat(s) from ${data.area}, pickup at ${data.pickupTime}`, logo: '' },
     callback: (response) => {
       if (response.status === 'successful') {
         status.className = 'status';

@@ -25,14 +25,16 @@ module.exports = async (request, response) => {
       }
     }
 
-    const bookingNumber = `UV-${new Date().getFullYear()}-${randomBytes(3).toString('hex').toUpperCase()}`;
+    const bookingNumber = `R01-${new Date().getFullYear()}-${randomBytes(3).toString('hex').toUpperCase()}`;
     const details = {
       bookingNumber,
       name: booking.name,
       email: booking.email,
       phone: booking.phone,
       area: booking.area,
+      pickupPoint: booking.pickupPoint,
       address: booking.address,
+      vehicle: booking.vehicle,
       seats: booking.seats,
       amount: Number(expectedAmount).toLocaleString('en-US'),
       transactionId: transactionId || 'CASH_ON_PICKUP',
@@ -48,7 +50,7 @@ module.exports = async (request, response) => {
           from: process.env.RESEND_FROM_EMAIL,
           to: recipients,
           subject: `${paymentMethod === 'cash' ? 'Cash' : 'Paid'} ride booking ${bookingNumber} | ${booking.name}`,
-          html: `<h2>Uthando Vibes ${paymentMethod === 'cash' ? 'cash' : 'paid'} booking</h2><p><strong>Booking number:</strong> ${bookingNumber}</p><p><strong>Name:</strong> ${details.name}<br><strong>Email:</strong> ${details.email}<br><strong>Phone:</strong> ${details.phone}<br><strong>Station:</strong> ${details.area}<br><strong>Pickup:</strong> ${details.address}<br><strong>Pickup time:</strong> ${booking.pickupTime}<br><strong>Return ride:</strong> ${booking.returnRide}<br><strong>Seats:</strong> ${details.seats}<br><strong>Amount due:</strong> UGX ${details.amount}<br><strong>Payment method:</strong> ${paymentMethod}<br><strong>Flutterwave transaction:</strong> ${details.transactionId}</p>`
+          html: `<h2>Route 01 ${paymentMethod === 'cash' ? 'cash' : 'paid'} booking</h2><p><strong>Booking number:</strong> ${bookingNumber}</p><p><strong>Name:</strong> ${details.name}<br><strong>Email:</strong> ${details.email}<br><strong>Phone:</strong> ${details.phone}<br><strong>Station:</strong> ${details.area}<br><strong>Meeting point:</strong> ${details.pickupPoint}<br><strong>Pickup:</strong> ${details.address}<br><strong>Vehicle:</strong> ${details.vehicle}<br><strong>Pickup time:</strong> ${booking.pickupTime}<br><strong>Return ride:</strong> ${booking.returnRide}<br><strong>Seats:</strong> ${details.seats}<br><strong>Amount due:</strong> UGX ${details.amount}<br><strong>Payment method:</strong> ${paymentMethod}<br><strong>Flutterwave transaction:</strong> ${details.transactionId}</p>`
         })
       });
     }
