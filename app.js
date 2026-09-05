@@ -82,11 +82,13 @@ form.addEventListener('submit', (event) => {
       status.className = 'status success';
       bookingNumber.textContent = body.bookingNumber;
       confirmationLabel.textContent = data.paymentMethod === 'cash' ? 'Cash booking received' : 'Payment confirmed';
-      dialogCopy.textContent = data.paymentMethod === 'cash' ? 'Your confirmation has been sent to your email. Pay your driver in cash when you are picked up.' : 'Your payment is confirmed and a copy of the booking has been sent to your email.';
+      dialogCopy.textContent = body.emailSent
+        ? (data.paymentMethod === 'cash' ? 'Your confirmation has been sent to your email. Pay your driver in cash when you are picked up.' : 'Your payment is confirmed and a copy of the booking has been sent to your email.')
+        : 'Your booking is confirmed, but the email copy could not be sent. Please keep this booking number and confirm in the WhatsApp group.';
       whatsappConfirm.href = whatsappGroupUrl;
       whatsappConfirm.dataset.message = message;
       confirmationDialog.showModal();
-      status.textContent = `Booking ${body.bookingNumber} confirmed.`;
+      status.textContent = body.emailSent ? `Booking ${body.bookingNumber} confirmed.` : `Booking ${body.bookingNumber} confirmed. Email delivery is pending.`;
       form.reset();
       updateTotal();
     })

@@ -41,6 +41,7 @@ module.exports = async (request, response) => {
     };
 
     const recipients = [process.env.ADMIN_EMAIL, booking.email].filter(Boolean);
+    let emailSent = false;
     if (process.env.RESEND_API_KEY && process.env.RESEND_FROM_EMAIL && recipients.length) {
       const emailResponse = await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -55,11 +56,12 @@ module.exports = async (request, response) => {
       if (!emailResponse.ok) {
         const emailError = await emailResponse.text();
         console.error('Resend email failed', emailResponse.status, emailError);
-        return response.status(502).json({ error: 'Booking saved, but confirmation email could not be sent' });
+      } else {
+        emailSent = true;
       }
     }
 
-    return response.status(200).json({ bookingNumber, amount: details.amount });
+    return response.status(200).json({ bookingNumber, amount: details.amount, emailSent });
   } catch (error) {
     console.error('Booking completion failed', error);
     return response.status(500).json({ error: 'Unable to complete booking' });
