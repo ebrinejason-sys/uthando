@@ -14,7 +14,8 @@
       { route: 'Villa Gabon → Ishaka', price: 'UGX 3,000', note: 'per journey' }
     ],
     totalLabel: 'To and fro total',
-    total: 'UGX 6,000'
+    total: 'UGX 6,000',
+    bookingPreset: { rideType: 'standard', area: 'Ishaka Town', destination: 'Villa Gabon (Essence Music)', rideDate: '2026-10-08', returnRide: 'yes' }
   };
 
   const slot = document.getElementById('promo-slot');
@@ -39,10 +40,18 @@
             ${PROMO.fares.map((fare) => `<div><small>${fare.route}</small><strong>${fare.price}</strong><span>${fare.note}</span></div>`).join('')}
             <div class="promo-total"><small>${PROMO.totalLabel}</small><strong>${PROMO.total}</strong></div>
           </div>
-          <a class="button promo-button" href="${site.whatsappLink(message)}" target="_blank" rel="noopener noreferrer">Book your Essence ride on WhatsApp <span aria-hidden="true">↗</span></a>
+          <a class="button promo-button" id="promoBook" href="${site.whatsappLink(message)}" target="_blank" rel="noopener noreferrer">Book your Essence ride <span aria-hidden="true">→</span></a>
           <p class="promo-script">Good music. Great vibes. Same ride!</p>
         </div>
         <img class="promo-flyer" src="assets/essence-music-flyer.jpg" alt="Suburb Rides flyer for Essence Music at Villa Gabon, 8 October" width="640" height="960" loading="lazy">
       </div>
     </section>`;
+
+  // Opens the booking form pre-filled for the event (flat fare: UGX 3,000 per journey, 6,000 to and fro).
+  // Falls back to the WhatsApp link above if the booking form is not on the page.
+  document.getElementById('promoBook').addEventListener('click', (event) => {
+    if (!window.SuburbBooking) return;
+    event.preventDefault();
+    window.SuburbBooking.open(PROMO.bookingPreset);
+  });
 })();

@@ -15,7 +15,7 @@
 .promo-fares .promo-total { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; background: var(--yellow); border-color: var(--yellow); }
 .promo-fares .promo-total small { color: var(--on-yellow); text-transform: uppercase; letter-spacing: 1.2px; font-weight: 800; }
 .promo-fares .promo-total strong { color: var(--on-yellow); margin: 0; }
-.promo-button { margin-top: 22px; background: #25d366; color: #06150b; }
+.promo-button { margin-top: 22px; background: var(--yellow); color: var(--on-yellow); }
 .promo-script { margin: 14px 0 0; color: var(--muted); font-size: 12px; font-style: italic; }
 .promo-flyer { width: 230px; max-width: 100%; height: auto; justify-self: end; transform: rotate(3deg); box-shadow: 0 24px 60px #000c; border: 6px solid #fff; }
 @media (max-width: 860px) {
