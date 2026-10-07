@@ -1,0 +1,29 @@
+/* Essence Music promo (see promo.js). Safe to delete together with promo.js. */
+.promo { padding: 70px var(--gutter) 10px; background: var(--bg); }
+.promo-inner { position: relative; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; padding: 44px 46px; background: linear-gradient(120deg, #17140a 0%, #0f0f12 55%), var(--panel); border: 1px solid #ffd00055; overflow: hidden; }
+.promo-inner::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 6px; background: var(--yellow); }
+.promo-tag { display: inline-block; margin: 0 0 16px; padding: 6px 12px; background: var(--yellow); color: var(--on-yellow); font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.6px; transform: skewX(-8deg); }
+.promo h2 { font-size: clamp(40px, 4.6vw, 62px); }
+.promo-sub { margin: 8px 0 0; font: 400 clamp(24px, 2.6vw, 32px) var(--script); color: var(--yellow); }
+.promo-meta { list-style: none; padding: 0; margin: 22px 0; display: flex; flex-wrap: wrap; gap: 10px 26px; font-size: 14px; font-weight: 700; }
+.promo-meta b { display: block; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 1.4px; margin-bottom: 3px; }
+.promo-fares { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 540px; }
+.promo-fares > div { background: #0b0b0d; border: 1px solid var(--line); padding: 14px 16px; }
+.promo-fares small { display: block; font-size: 12px; font-weight: 700; color: #d6d5d0; }
+.promo-fares strong { display: block; font: 400 clamp(24px, 6vw, 30px) var(--display); color: var(--yellow); margin-top: 4px; letter-spacing: .5px; }
+.promo-fares span { font-size: 11px; color: var(--muted); }
+.promo-fares .promo-total { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; background: var(--yellow); border-color: var(--yellow); }
+.promo-fares .promo-total small { color: var(--on-yellow); text-transform: uppercase; letter-spacing: 1.2px; font-weight: 800; }
+.promo-fares .promo-total strong { color: var(--on-yellow); margin: 0; }
+.promo-button { margin-top: 22px; background: #25d366; color: #06150b; }
+.promo-script { margin: 14px 0 0; color: var(--muted); font-size: 12px; font-style: italic; }
+.promo-flyer { width: 230px; max-width: 100%; height: auto; justify-self: end; transform: rotate(3deg); box-shadow: 0 24px 60px #000c; border: 6px solid #fff; }
+@media (max-width: 860px) {
+  .promo { padding: 50px 20px 0; }
+  .promo-inner { grid-template-columns: 1fr; padding: 30px 22px; gap: 26px; }
+  .promo-flyer { display: none; }
+  .promo-button { width: 100%; text-align: center; }
+}
+@media (max-width: 350px) {
+  .promo-fares { grid-template-columns: 1fr; }
+}

@@ -1,17 +1,24 @@
-# Route 01 booking site
+# Suburb Rides booking site
 
-Static Vercel site with cash-on-pickup reservations, Flutterwave mobile-money checkout, and Resend notifications.
+*Your ride, your way.* Static Vercel site for Suburb Rides (Ishaka, Bushenyi, Bweji, Bassajja and surrounding areas) with cash-on-pickup bookings, Flutterwave mobile-money checkout, and **WhatsApp-only booking confirmation** to 0748 726 861 (+256 748 726 861).
+
+## How booking confirmation works
+
+1. The customer fills in the booking form and chooses cash on pickup or mobile money (Flutterwave).
+2. `/api/complete-booking` verifies the Flutterwave payment (mobile money only) and returns a booking number (`SR-YYYY-XXXXXX`).
+3. The confirmation dialog shows a **Confirm on WhatsApp** button that opens `https://wa.me/256748726861` with the full booking details prefilled. The customer taps send, and the booking is confirmed in that WhatsApp chat.
+
+No confirmation emails are sent. The WhatsApp number lives in `site-config.js`.
 
 ## Vercel environment variables
 
-Add these in the Vercel project settings for Production (and Preview if needed):
-
 - `FLUTTERWAVE_PUBLIC_KEY`: Flutterwave public key used by the browser checkout
 - `FLW_SECRET_KEY`: Flutterwave secret key used only by `/api/complete-booking`
-- `RESEND_API_KEY`: Resend API key used to send paid-booking emails
-- `RESEND_FROM_EMAIL`: verified sender, for example `Route 01 <bookings@yourdomain.com>`
-- `ADMIN_EMAIL`: inbox that receives every paid-booking notification
 
-Customers can choose cash on pickup or mobile money through Flutterwave. For online payments, the API verifies the transaction and UGX amount before emailing the admin and customer through Resend. Cash reservations are recorded without payment verification and show the amount due in the booking notification. Both paths return a generated booking number, which the customer can optionally confirm in WhatsApp.
+Never put `FLW_SECRET_KEY` in frontend code. The old `RESEND_API_KEY`, `RESEND_FROM_EMAIL` and `ADMIN_EMAIL` variables are no longer used and can be removed.
 
-The Resend sender domain must be verified in Resend. Never put `FLW_SECRET_KEY` or `RESEND_API_KEY` in frontend code.
+Every booking is also logged (`Booking created ...`) in the Vercel function logs as a backup record.
+
+## Event promo (Essence Music, Villa Gabon, 8 Oct 2026)
+
+The promo banner lives entirely in `promo.js`, `promo.css` and `assets/essence-music-flyer.jpg`, and renders into `<div id="promo-slot">` in `index.html`. It hides itself after the event (`endsAt`). Set `enabled: false` in `promo.js` to switch it off, or delete those files plus the slot and its `<script>`/`<link>` tags to remove it.
